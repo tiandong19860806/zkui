@@ -51,14 +51,15 @@ public class Main {
 
         logger.debug("Starting ZKUI!");
         Properties globalProps = new Properties();
-        String appConfPath = System.getenv("APP_CONF");
+        String appConfPath = System.getenv("ZKUI_HOME");
         if(appConfPath == null || appConfPath.length() == 0) {
-        	System.out.println("env parameter APP_CONF isn't set, such as APP_CONF=/opt/zkui/zkui-2.0/ or actual path of zkui install");
-        	return;
+        	System.out.println("env parameter ZKUI_HOME isn't set, such as ZKUI_HOME=/opt/zkui/zkui-2.0/ or actual path of zkui install");
+        	System.exit(1);
         }
-        File f = new File(appConfPath + "config.cfg");
+        appConfPath =  appConfPath + "config.cfg";
+        File f = new File(appConfPath);
         if (f.exists()) {
-            globalProps.load(new FileInputStream("config.cfg"));
+            globalProps.load(new FileInputStream(appConfPath));
         } else {
             System.out.println("Please create config.cfg properties file and then execute the program!");
             System.exit(1);
