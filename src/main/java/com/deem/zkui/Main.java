@@ -45,11 +45,18 @@ public class Main {
 
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(Main.class);
 
+    //@Value // because POM is not used spring-boot, so ingore @Value to fetch parameter
+    
     public static void main(String[] args) throws Exception {
 
         logger.debug("Starting ZKUI!");
         Properties globalProps = new Properties();
-        File f = new File("config.cfg");
+        String appConfPath = System.getenv("APP_CONF");
+        if(appConfPath == null || appConfPath.length() == 0) {
+        	System.out.println("env parameter APP_CONF isn't set, such as APP_CONF=/opt/zkui/zkui-2.0/ or actual path of zkui install");
+        	return;
+        }
+        File f = new File(appConfPath + "config.cfg");
         if (f.exists()) {
             globalProps.load(new FileInputStream("config.cfg"));
         } else {
